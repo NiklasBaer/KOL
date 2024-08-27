@@ -1,13 +1,38 @@
-
 import numpy as np
+import nnfs
+from nnfs.datasets import spiral_data
 
-inputs = [1, 2, 3, 2.5]
+nnfs.init()
 
-weights = [[0.2, 0.8, -0.5, 1.0],
-           [0.5, -0.91, 0.26, -0.5],
-           [-0.26, -0.27, 0.17, 0.87]]
+X = [[1, 2, 3, 2.5],
+     [2.0, 5.0, -1.0, 2.0],
+     [-1.5, 2.7, 3.3, -0.8]]
 
-biases = [2, 3, 0.5]
+X, Y = spiral_data(100,3)
 
-output = np.dot(weights, inputs) + biases
-print(output)
+
+class Layer_Dense:
+    
+    def __init__(self, n_inputs, n_neurons):
+        self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)
+        self.biases = np.zeros((1, n_neurons))
+    
+    def forward(self, inputs):
+        self.output = np.dot(inputs, self.weights) + self.biases
+        
+class Activatiopn_ReLU:
+    
+    def forward(self, inputs):
+        
+        self.output = np.maximum(0, inputs)
+   
+   
+   
+     
+layer1 = Layer_Dense(2,5)
+activation1 = Activatiopn_ReLU()
+
+layer1.forward(X)
+activation1.forward(layer1.output)
+
+print(activation1.output)
